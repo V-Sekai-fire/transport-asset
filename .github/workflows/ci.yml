@@ -1,0 +1,26 @@
+# Build it. That is the whole job, and it is the one thing nobody was doing when these
+# files lived under examples/ with no CMake entry: 378 lines of C reached review without a
+# compiler reading them.
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install h2o
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libh2o-dev libh2o-evloop-dev
+      - name: Build
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build -j

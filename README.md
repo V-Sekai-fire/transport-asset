@@ -28,9 +28,12 @@ authorization do not care which, which is why it is one function and not a depen
 
 ## State
 
-**Not built.** `src/asset_distribution.c` is the handler, the addressing and the rebac gate,
-carried over from `gyreplane` unchanged.
+`src/asset_distribution.c` is the handler, the addressing and the rebac gate, carried over
+from `gyreplane` unchanged. It builds, and CI builds it.
 
-It needs h2o, and `gen/rebac.h`, which is generated from `lean-rebac-core` in the tree that
-generates it. Copying that here would put one decision in two places. CMake says what is
-missing rather than offering a target that cannot link.
+`gen/rebac.{c,h}` is vendored here rather than fetched. A copy can drift from the Lean that
+produced it, and that is the smaller problem: a repository that cannot build without cloning
+another one is a note, not a repository. Regenerate those files, never edit them.
+
+h2o is a system library and is required outright, the way `fabric-store-plane` requires
+libfdb_c and libsqlite3.
