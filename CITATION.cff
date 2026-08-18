@@ -1,0 +1,57 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "transport-asset: a content-addressed casync chunk CDN"
+abstract: >
+  Chunks, addressed by their content, served to whoever is allowed to ask. A
+  transport layer is the input that triggers an interactor, and this one really is a
+  server: an h2o loop with handlers, answering requests. That is what separates it
+  from interactor-authority, which had an h2o loop and no handlers and turned out to
+  be an interactor all along. It is an edge that needs no ring, so it lands wherever
+  it likes.
+authors:
+  - family-names: Lee
+    given-names: "K. S. Ernest (iFire)"
+    email: ernest.lee@chibifire.com
+    orcid: "https://orcid.org/0000-0003-4570-1436"
+version: 0.1.0-dev.1
+date-released: "2026-08-17"
+license: MIT
+repository-code: "https://github.com/v-sekai-multiplayer-fabric/transport-asset"
+keywords:
+  - content-addressed-storage
+  - casync
+  - cdn
+  - h2o
+references:
+
+  - type: software
+    title: "h2o: an optimized HTTP server with support for HTTP/1.x, HTTP/2 and HTTP/3"
+    url: "https://github.com/h2o/h2o"
+    notes: >
+      Required outright as a system library rather than vendored, the way
+      datasource-store requires its own. The loop and the handlers are this
+      repository's; the server is not.
+
+  - type: software
+    title: "casync: content-addressable data synchronizer"
+    authors:
+      - family-names: Poettering
+        given-names: Lennart
+    url: "https://github.com/systemd/casync"
+    notes: >
+      The chunking and addressing scheme the served objects are in. `casync_fetch_chunk`
+      is the single call this makes onto idtxcli in datasource-flow -- one function
+      rather than a dependency, because fetch and authorization do not care which
+      backing store answers.
+
+  - type: software
+    title: "entities-lean-rebac: the relationship-based access-control hexagon"
+    authors:
+      - family-names: Lee
+        given-names: "K. S. Ernest (iFire)"
+    url: "https://github.com/v-sekai-multiplayer-fabric/entities-lean-rebac"
+    notes: >
+      "Whoever is allowed to ask" is decided by gen/rebac.{c,h}, which is emitted from
+      that Lean core and vendored here rather than fetched. A copy can drift from the
+      Lean that produced it, and saying where it came from is what makes the drift
+      findable.
