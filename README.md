@@ -1,6 +1,6 @@
 # transport-asset
 
-An HTTP edge that serves immutable, content-addressed asset chunks to callers whose access relations allow the read.
+The request handler for an HTTP edge that serves immutable, content-addressed asset chunks to callers whose access relations allow the read.
 
 ## What it is for
 
@@ -8,12 +8,7 @@ Large assets such as worlds and avatars are stored as chunks named by their hash
 
 ## Build and run
 
-```sh
-cmake -B build
-cmake --build build
-```
-
-The repository holds the request handler only. It has no entry point, and its chunk-store and caller-lookup functions are declared without definitions, so the build does not produce a server.
+Configuring with CMake needs the h2o HTTP library installed on the host. The build does not link yet: the repository holds the request handler only, with no entry point, and its chunk-store and caller-lookup functions are declared without definitions.
 
 ## Licence
 
